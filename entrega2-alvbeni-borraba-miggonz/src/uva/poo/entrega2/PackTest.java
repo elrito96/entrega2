@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class PackTest {
-
+	
 	@Test
 	public void testPackValido(){
 		Producto a=new Producto("POLLO", 5.0, "123456789012");
@@ -53,7 +53,6 @@ public class PackTest {
 		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
 		assertTrue(miPack.distintos());
 	}
-	//NO FUNCIONA. HAY ERROR
 	@Test
 	public void testAgregaProductoValido(){
 		Producto a=new Producto("POLLO", 5.0, "123456789012");
@@ -66,7 +65,6 @@ public class PackTest {
 		miPack.agregaProducto(c);
 		assertEquals(miPack.getContenido().get(2),c);
 	}
-	//Y ESTOS DAN BIEN PORQUE SE SALE DEL ARRAY NO PORQUE COJA EL ERROR
 	@Test(expected=java.lang.AssertionError.class)
 	public void testAgregaProductoInvalidoProductoNull(){
 		Producto a=new Producto("POLLO", 5.0, "123456789012");
@@ -75,38 +73,102 @@ public class PackTest {
 		listaDeLaCompra[0]=a;
 		listaDeLaCompra[1]=b;
 		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
-		Producto c=new Producto(null, 10.0, "098765432112");
+		Producto c=null;
 		miPack.agregaProducto(c);
 	}
 	@Test(expected=java.lang.AssertionError.class)
 	public void testAgregaProductoInvalidoYaConteniaElProducto(){
 		Producto repe=new Producto("POLLO", 5.0, "123456789012");
-		Producto[] listaDeLaCompra = new Producto[2];
-		Producto b=new Producto("PATATAS", 10.0, "098765432112");
-		listaDeLaCompra[0]=repe;
-		listaDeLaCompra[1]=b;
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto[] listaDeLaCompra = {repe,patatas};
 		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
 		miPack.agregaProducto(repe);
 	}
-	public void testEliminarUno() {
-		fail("Not yet implemented");
-	}
-
 	@Test
-	public void testEliminarVarios() {
-		fail("Not yet implemented");
+	public void testQuitaProductoValido() {
+		Producto pollo=new Producto("POLLO", 5.0, "123456789012");
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto cola=new Producto("COCACOLA", 10.0, "098765432112");
+		Producto[] listaDeLaCompra = {pollo,patatas,cola};
+		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
+		miPack.quitaProducto(cola);
+		assertEquals(miPack.getCantidad(),2);
 	}
-
+	@Test(expected=java.lang.AssertionError.class)
+	public void testQuitaProductoInvalidoNull() {
+		Producto pollo=new Producto("POLLO", 5.0, "123456789012");
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto[] listaDeLaCompra = {pollo,patatas};
+		Producto nulo=null;
+		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
+		miPack.quitaProducto(nulo);
+	}
+	@Test(expected=java.lang.AssertionError.class)
+	public void testQuitaProductoInvalidoQueNoEsta() {
+		Producto pollo=new Producto("POLLO", 5.0, "123456789012");
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto cola=new Producto("COCACOLA", 10.0, "098765432112");
+		Producto[] listaDeLaCompra = {pollo,patatas};
+		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
+		miPack.quitaProducto(cola);
+	}
+	@Test(expected=java.lang.AssertionError.class)
+	public void testQuitaProductoInvalidoPackPequeño() {
+		Producto pollo=new Producto("POLLO", 5.0, "123456789012");
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto[] listaDeLaCompra = {pollo,patatas};
+		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
+		miPack.quitaProducto(patatas);
+		miPack.quitaProducto(pollo);
+	}
 	@Test
-	public void testGetCantidad() {
-		fail("Not yet implemented");
+	public void testAgregaVariosProductoValido(){
+		Producto pollo=new Producto("POLLO", 5.0, "123456789012");
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto cola=new Producto("COCACOLA", 10.0, "098765432112");
+		Producto golosinas = new Producto ("OSITOS HARIBO", 0.99, "123456789012");
+		Producto[] listaDeLaCompra = {pollo,patatas};
+		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
+		Producto[] ampliacion = {cola,golosinas};
+		miPack.agregaVariosProductos(ampliacion);
+		assertEquals(miPack.getCantidad(),4);
 	}
-
 	@Test
-	public void testContiene() {
-		fail("Not yet implemented");
+	public void testQuitaVariosProductoValido(){
+		Producto pollo=new Producto("POLLO", 5.0, "123456789012");
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto cola=new Producto("COCACOLA", 10.0, "098765432112");
+		Producto golosinas = new Producto ("OSITOS HARIBO", 0.99, "123456789012");
+		Producto[] listaDeLaCompra = {pollo,patatas,cola,golosinas};
+		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
+		Producto[] ampliacion = {cola,golosinas};
+		miPack.quitaVariosProductos(ampliacion);
+		assertEquals(miPack.getCantidad(),2);
 	}
-
+	@Test
+	public void testGetCantidadValido() {
+		Producto pollo=new Producto("POLLO", 5.0, "123456789012");
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto[] listaDeLaCompra = {pollo,patatas};
+		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
+		assertEquals(miPack.getCantidad(),2);
+	}
+	@Test
+	public void testContieneValido() {
+		Producto pollo=new Producto("POLLO", 5.0, "123456789012");
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto[] listaDeLaCompra = {pollo,patatas};
+		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
+		assertTrue(miPack.contiene(pollo));
+	}
+	@Test(expected=java.lang.AssertionError.class)
+	public void testContieneInvalidoProductoNull() {
+		Producto pollo=new Producto("POLLO", 5.0, "123456789012");
+		Producto patatas=new Producto("PATATAS", 10.0, "098765432112");
+		Producto[] listaDeLaCompra = {pollo,patatas};
+		Pack miPack = new Pack("nombre","1",listaDeLaCompra);
+		miPack.contiene(null);
+	}
 	@Test
 	public void testGetContenido() {
 		fail("Not yet implemented");

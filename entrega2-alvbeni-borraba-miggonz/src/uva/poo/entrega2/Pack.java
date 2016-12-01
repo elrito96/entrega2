@@ -52,10 +52,11 @@ public class Pack extends Vendible {
 	/**
 	 * Agrega un nuevo producto al pack
 	 * @param p Producto nuevo a agregar al pack
-	 * @assert.pre p!=null - El producto a agregar no puede ser nulo
+	 * @assert.pre p.equals(null)==true - El producto a agregar no puede ser nulo
 	 * @assert.pre !contiene(p)- El producto a agregar no puede estar ya en el pack
 	 */
 	public void agregaProducto(Producto p){
+		assert(p!=null);
 		assert(!contiene(p));
 		getContenido().add(p);
 	}
@@ -76,7 +77,7 @@ public class Pack extends Vendible {
 	 * Agrega varios productos a un pack
 	 * @param p array de productos a agregar al pack
 	 */
-	public void agregaProductos(Producto p[]){
+	public void agregaVariosProductos(Producto p[]){
 		for(Producto e:p){
 			agregaProducto(e);
 		}	
@@ -85,7 +86,7 @@ public class Pack extends Vendible {
 	 * Quita varios productos de un pack
 	 * @param p array de productos a quitar del pack
 	 */
-	public void quitaProductos(Producto p[]){
+	public void quitaVariosProductos(Producto p[]){
 		for(Producto e:p){
 			quitaProducto(e);
 		}
